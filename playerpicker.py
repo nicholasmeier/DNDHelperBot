@@ -84,7 +84,28 @@ async def on_message(message):
             player = randmember(guild, 'Player', "name")
             await message.channel.send(player + msg_str)
 
-    #help
+    #
+    #  !pickfromrole command
+    #  pick from specified role
+    #
+    if message.content.startswith('!pickfromrole'):
+        pickfromrole_args = message.content.split(" ")
+        mention_p = False
+        if len(pickfromrole_args) < 2:
+            await message.channel.send("Incorrect Usage:\n!pickfromrole <role_name> <mention:true|false>")
+            return
+        role_name = pickfromrole_args[1]
+        if len(pickfromrole_args) >= 3:
+            if pickfromrole_args[2] == 'true':
+                mention_p = True
+        if mention_p:
+            player = randmember(guild, role_name, "obj")
+            await message.channel.send(f"{player.mention}" + " : You have been randomly picked from " + role_name)
+        else:
+            player = randmember(guild, role_name, "name")
+            await message.channel.send(player + ": You have been randomly picked from " + role_name)
+
+    # help command
     if message.content.startswith('!help'):
         help_args = message.content.split(" ")
         help_with = "NOCMD"
@@ -93,7 +114,7 @@ async def on_message(message):
             if (help_with == "!pickplayer"):
                 await message.channel.send("To use this you must have the role \"Player\"")
                 await message.channel.send("Use !pickplayer (or !pp) to randomly pick a player for a roll")
-                await message.channel.send("Example format:\n!pickplayer <Skill> <detail> <mention>")
+                await message.channel.send("Example format:\n!pickplayer <Skill> <detail> <mention:true|false>")
                 await message.channel.send("Args, seperated by a space:\nSkill: Roll for what skill check or save\nDetail: a detail about the roll, like \"Save\" or \"Check\"\nMention: true|false mention the random player")
         else:
             await message.channel.send("List of commands:")
