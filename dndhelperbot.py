@@ -2,6 +2,18 @@ import discord
 import logging
 import random
 
+# TODO / Ideas
+# create selenium func to read from fantasynamegenerator.com
+# create a random event function maybe --> encounters etc
+# dnd crafting command maybe ?
+    # would be like !craft <skill> <player_level> <item_template> <roll_a> <roll_b> <roll_c> <ingr_1> <ingr_2> <ingr_3>
+    # and prints out a cool item
+# Maybe a DC generator
+    # like maybe !DCGen <difficulty:easy|med|hard|extreme> <player_level>
+# idk what else
+
+
+
 intents = discord.Intents.default()
 intents.members = True
 client = discord.Client(intents=intents)
@@ -12,7 +24,8 @@ debug = True
 #get tokenfile without exposing token
 tokenfile = open("token.txt", "r")
 token = tokenfile.read().splitlines()[0]
-print(token)
+if debug:
+    print(token)
 tokenfile.close()
 
 #function for random member of a role in a server
@@ -51,7 +64,9 @@ async def on_message(message):
     #get guild
     guild = client.get_guild(message.guild.id)
 
-    # pickplayer command
+    #
+    # !pickplayer command
+    # pick from Player role
     #
     if message.content.startswith('!pickplayer') or message.content.startswith('!pp'):
         #parse args for rolling for attribute
@@ -105,7 +120,9 @@ async def on_message(message):
             player = randmember(guild, role_name, "name")
             await message.channel.send(player + ": You have been randomly picked from " + role_name)
 
+    #
     # help command
+    #
     if message.content.startswith('!help'):
         help_args = message.content.split(" ")
         help_with = "NOCMD"
@@ -116,9 +133,11 @@ async def on_message(message):
                 await message.channel.send("Use !pickplayer (or !pp) to randomly pick a player for a roll")
                 await message.channel.send("Example format:\n!pickplayer <Skill> <detail> <mention:true|false>")
                 await message.channel.send("Args, seperated by a space:\nSkill: Roll for what skill check or save\nDetail: a detail about the roll, like \"Save\" or \"Check\"\nMention: true|false mention the random player")
+            if (help_with == "!pickfromrole"):
+                await message.channel.send("Randomly pick a member of specified role\nFORMAT: !pickplayer <role_name> <mention:true|false>")
         else:
             await message.channel.send("List of commands:")
-            await message.channel.send("!pickplayer")
+            await message.channel.send("!pickplayer\n!pickfromrole")
             await message.channel.send("use !help <cmd> for more detailed help")
 
     #todo : add more commands (if needed)
