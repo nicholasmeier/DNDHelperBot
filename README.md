@@ -4,8 +4,8 @@ A discord bot with utility commands for DnD
 <h2>List of commands:</h2>
 <ol>
   <li>!help</li>
-  <li>!pickplayer</li>
-  <li>!pickfromrole</li>
+  <li>!pickplayer - Randomly pick member from the Player role</li>
+  <li>!pickfromrole - Randomly pick member from chosen role</li>
 </ol>  
 
 <h2>Use/hosting Guide:</h2>
